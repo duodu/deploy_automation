@@ -20,7 +20,7 @@ $instance.each do |instance|
       puts common +' exists'
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! common, instance[:destination] + 'common'
-        puts common + ' upload successfully'
+        puts common + 'to ' + instance[:destination] + 'common' + ' upload successfully'
       end
     else
       puts common + ' not exists'
@@ -32,7 +32,7 @@ $instance.each do |instance|
       puts mall +' exists'
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! mall, instance[:destination] + 'mall'
-        puts mall + ' upload successfully'
+        puts mall + 'to ' + instance[:destination] + 'mall' + ' upload successfully'
       end
     else
       puts mall + ' not exists'
@@ -44,7 +44,7 @@ $instance.each do |instance|
       puts payment +' exists'
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! payment, instance[:destination] + 'payment'
-        puts payment + ' upload successfully'
+        puts payment + 'to ' + instance[:destination] + 'payment' + ' upload successfully'
       end
     else
       puts payment + ' not exists'
