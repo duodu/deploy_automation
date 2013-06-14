@@ -6,24 +6,16 @@ $workbook = $excel.Workbooks.Open($deploy_excel)
 $worksheet = $workbook.Worksheets(1)
 $worksheet.Select
 
-col = Array.new
-i = 0
-line = 1
-while i < 6
-  if $worksheet.Range("A#{line}").value == 'commom'
-    col[i] = line
-    i += 1
-  end
-  line += 1
-end
-
-$instance_cp_01 = {:common => nil, :mall => nil, :payment => nil, :ip => '10.48.192.16', :port => 10051,:username => 'app01' , :password => 'handpay', :column => col[0], :destination => '/opt/app01/server/default/deploy/'}
-$instance_cp_02 = {:common => nil, :mall => nil, :payment => nil, :ip => '10.48.192.16', :port => 10051,:username => 'app02' , :password => 'handpay', :column => col[1], :destination => '/opt/app02/server/default/deploy/'}
-$instance_cp_03 = {:common => nil, :mall => nil, :payment => nil, :ip => '10.48.192.16', :port => 10051,:username => 'app03' , :password => 'handpay', :column => col[2], :destination => '/opt/app03/server/default/deploy/'}
-$instance_cc_01 = {:common => nil, :mall => nil, :payment => nil, :ip => '10.48.192.13', :port => 22,:username => 'app01' , :password => 'handpay', :column => col[3], :destination => '/opt/app01/server/default/deploy/'}
-$instance_cc_02 = {:common => nil, :mall => nil, :payment => nil, :ip => '10.48.192.13', :port => 22,:username => 'app02' , :password => 'handpay', :column => col[4], :destination => '/opt/app02/server/default/deploy/'}
-$instance_cc_03 = {:common => nil, :mall => nil, :payment => nil, :ip => '10.48.192.13', :port => 22, :username => 'app03' , :password => 'handpay', :column => col[5], :destination => '/opt/app03/server/default/deploy/'}
-$instance=[$instance_cc_01,$instance_cc_02,$instance_cc_03,$instance_cp_01,$instance_cp_02,$instance_cp_03]
+#col = Array.new
+#i = 0
+#line = 1
+#while i < 6
+  #if $worksheet.Range("A#{line}").value == 'commom'
+    #col[i] = line
+    #i += 1
+  #end
+  #line += 1
+#end
 
 def file_to_instance
   $instance.each do |instance|

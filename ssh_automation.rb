@@ -1,7 +1,8 @@
 require 'net/ssh'
 require 'net/scp'
 require File.expand_path('../test_excel.rb', __FILE__)
-Dir::chdir('E:/lib/')
+require File.expand_path('../config.rb', __FILE__)
+Dir::chdir($deploy_dir)
 
 $instance.each do |instance|
   while str != 'y' && str != 'n' do
