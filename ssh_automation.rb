@@ -3,8 +3,9 @@ require 'net/scp'
 require File.expand_path('../test_excel.rb', __FILE__)
 require File.expand_path('../config.rb', __FILE__)
 Dir::chdir($deploy_dir)
-str = nil
+
 $instance.each do |instance|
+  str = nil
   while str != 'y' && str != 'n' do
     puts 'do you want to delete ' + instance[:destination] + ' ?' + '(y or n)'
     str = gets.chomp
@@ -61,6 +62,7 @@ $instance.each do |instance|
       puts payment + ' not exists'
     end
   end
+  str = nil
   while str != 'y' && str != 'n' do
     puts 'do you want to restart ' + instance[:destination] + instance[:username] + ' ?' + '(y or n)'
     str = gets.chomp
