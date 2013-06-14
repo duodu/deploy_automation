@@ -1,6 +1,6 @@
 require 'win32ole'
+require File.expand_path('../config.rb', __FILE__)
 
-$deploy_excel = 'E:/lib/deploy.xlsx'
 $excel = WIN32OLE::new('excel.Application')
 $workbook = $excel.Workbooks.Open($deploy_excel)
 $worksheet = $workbook.Worksheets(1)

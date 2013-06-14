@@ -4,15 +4,18 @@ require File.expand_path('../test_excel.rb', __FILE__)
 Dir::chdir('E:/lib/')
 
 $instance.each do |instance|
-  puts 'do you want to delete ' + instance[:destination] + ' ?' + '(y or n)'
-  str = gets.chomp
-  if str == 'y'
-    Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
-      ssh.exec! "rm -f #{instance[:destination]}*"
-    end
-  elsif str == 'n'
-    puts 'deploy package will be cover'
-  #else
+  while str != 'y' && str != 'n' do
+    puts 'do you want to delete ' + instance[:destination] + ' ?' + '(y or n)'
+    str = gets.chomp
+    if str == 'y'
+      Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
+        ssh.exec! "rm -f #{instance[:destination]}*"
+      end
+    elsif str == 'n'
+      puts 'deploy package will be cover'
+    else
+      puts 'You should type (y or n)'
+    end    
   end
   instance[:common].each do |common|
 
@@ -51,15 +54,19 @@ $instance.each do |instance|
       puts payment + ' not exists'
     end
   end
-  puts 'do you want to restart ' + instance[:destination] + instance[:username] + ' ?' + '(y or n)'
-  str = gets.chomp
-  if str == 'y'
-    Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
-      puts instance[:ip] + instance[:username] + 'will restart at once'
-      ssh.exec! "hp restart"
+  while str != 'y' && str != 'n' do
+    puts 'do you want to restart ' + instance[:destination] + instance[:username] + ' ?' + '(y or n)'
+    str = gets.chomp
+    if str == 'y'
+      Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
+        puts instance[:ip] + instance[:username] + 'will restart at once'
+        ssh.exec! "hp restart"
+      end
+    elsif str == 'n'
+      puts instance[:ip] + instance[:username] + 'will not restart'
+    else
+      puts 'You should type (y or n)'
     end
-  elsif str == 'n'
-    puts instance[:ip] + instance[:username] + 'will not restart'
-  #else
   end
+
 end
