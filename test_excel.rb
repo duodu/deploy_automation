@@ -6,17 +6,6 @@ $workbook = $excel.Workbooks.Open($deploy_excel)
 $worksheet = $workbook.Worksheets(1)
 $worksheet.Select
 
-#col = Array.new
-#i = 0
-#line = 1
-#while i < 6
-  #if $worksheet.Range("A#{line}").value == 'commom'
-    #col[i] = line
-    #i += 1
-  #end
-  #line += 1
-#end
-
 def file_to_instance
   $instance.each do |instance|
     common_array = Array.new

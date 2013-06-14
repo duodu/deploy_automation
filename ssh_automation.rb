@@ -3,14 +3,20 @@ require 'net/scp'
 require File.expand_path('../test_excel.rb', __FILE__)
 require File.expand_path('../config.rb', __FILE__)
 Dir::chdir($deploy_dir)
-
+str = nil
 $instance.each do |instance|
   while str != 'y' && str != 'n' do
     puts 'do you want to delete ' + instance[:destination] + ' ?' + '(y or n)'
     str = gets.chomp
     if str == 'y'
       Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
-        ssh.exec! "rm -f #{instance[:destination]}*"
+        puts "rm -f #{instance[:destination]}common/*"
+        ssh.exec! "rm -f #{instance[:destination]}common/*"
+        puts "rm -f #{instance[:destination]}mall/*"
+        ssh.exec! "rm -f #{instance[:destination]}mall/*"
+        puts "rm -f #{instance[:destination]}payment/*"
+        ssh.exec! "rm -f #{instance[:destination]}payment/*"
+        puts instance[:destination] + ' deleted '
       end
     elsif str == 'n'
       puts 'deploy package will be cover'
@@ -25,7 +31,7 @@ $instance.each do |instance|
       puts common +' exists'
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! common, instance[:destination] + 'common'
-        puts common + 'to ' + instance[:destination] + 'common' + ' upload successfully'
+        puts common + ' to ' + instance[:destination] + 'common' + ' upload successfully'
       end
     else
       puts common + ' not exists'
@@ -37,7 +43,7 @@ $instance.each do |instance|
       puts mall +' exists'
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! mall, instance[:destination] + 'mall'
-        puts mall + 'to ' + instance[:destination] + 'mall' + ' upload successfully'
+        puts mall + ' to ' + instance[:destination] + 'mall' + ' upload successfully'
       end
     else
       puts mall + ' not exists'
@@ -49,7 +55,7 @@ $instance.each do |instance|
       puts payment +' exists'
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! payment, instance[:destination] + 'payment'
-        puts payment + 'to ' + instance[:destination] + 'payment' + ' upload successfully'
+        puts payment + ' to ' + instance[:destination] + 'payment' + ' upload successfully'
       end
     else
       puts payment + ' not exists'

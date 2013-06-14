@@ -3,16 +3,33 @@ $deploy_excel = 'E:/lib/deploy.xlsx'
 #部署包的目录
 $deploy_dir = 'E:/lib/'
 
+#取EXCEL行数
+$excel = WIN32OLE::new('excel.Application')
+$workbook = $excel.Workbooks.Open($deploy_excel)
+$worksheet = $workbook.Worksheets(1)
+$worksheet.Select
+
+col = Array.new
+i = 0
+line = 1
+while i < 6
+  if $worksheet.Range("A#{line}").value == 'commom'
+    col[i] = line
+    i += 1
+  end
+  line += 1
+end
+
 #展示层app01
 $instance_cp_01 = {
     :common => nil, 
     :mall => nil, 
     :payment => nil, 
-    :ip => '192.168.1.4',
-    :port => 22,
-    :username => 'root',
-    :password => 'zerolin',
-    :column => 2,#EXCEL中的行数
+    :ip => '10.48.192.16',
+    :port => 10051,
+    :username => 'app01',
+    :password => 'handpay',
+    :column => col[0],#EXCEL中的行数
     :destination => '/opt/app01/server/default/deploy/'
   }
 
@@ -21,11 +38,11 @@ $instance_cp_02 = {
     :common => nil, 
     :mall => nil, 
     :payment => nil, 
-    :ip => '192.168.1.4',
-    :port => 22,
-    :username => 'root',
-    :password => 'zerolin',
-    :column => 9,#EXCEL中的行数
+    :ip => '10.48.192.16',
+    :port => 10051,
+    :username => 'app02',
+    :password => 'handpay',
+    :column => col[1],#EXCEL中的行数
     :destination => '/opt/app02/server/default/deploy/'
   }
 
@@ -34,11 +51,11 @@ $instance_cp_03 = {
     :common => nil, 
     :mall => nil, 
     :payment => nil, 
-    :ip => '192.168.1.4',
-    :port => 2,
-    :username => 'root',
-    :password => 'zerolin',
-    :column => 14,#EXCEL中的行数
+    :ip => '10.48.192.16',
+    :port => 10051,
+    :username => 'app03',
+    :password => 'handpay',
+    :column => col[2],#EXCEL中的行数
     :destination => '/opt/app03/server/default/deploy/'
   }
 
@@ -51,7 +68,7 @@ $instance_cc_01 = {
     :port => 22,
     :username => 'app01',
     :password => 'handpay',
-    :column => 2,#EXCEL中的行数
+    :column => col[3],#EXCEL中的行数
     :destination => '/opt/app01/server/default/deploy/'
   }
 
@@ -64,7 +81,7 @@ $instance_cc_02 = {
     :port => 22,
     :username => 'app02',
     :password => 'handpay',
-    :column => 2,#EXCEL中的行数
+    :column => col[4],#EXCEL中的行数
     :destination => '/opt/app02/server/default/deploy/'
   }
 
@@ -78,10 +95,10 @@ $instance_cc_03 = {
     :port => 22,
     :username => 'app03',
     :password => 'handpay',
-    :column => 2,#EXCEL中的行数
+    :column => col[5],#EXCEL中的行数
     :destination => '/opt/app03/server/default/deploy/'
   }
 
 #所有实例
-#$instance=[$instance_cc_01,$instance_cc_02,$instance_cc_03,$instance_cp_01,$instance_cp_02,$instance_cp_03]
-$instance=[$instance_cc_01,$instance_cc_02,$instance_cc_03]
+$instance=[$instance_cc_01,$instance_cc_02,$instance_cc_03,$instance_cp_01,$instance_cp_02,$instance_cp_03]
+#$instance=[$instance_cp_01,$instance_cp_02,$instance_cp_03]
