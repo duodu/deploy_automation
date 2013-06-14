@@ -12,6 +12,7 @@ $instance.each do |instance|
     end
   elsif str == 'n'
     puts 'deploy package will be cover'
+  #else
   end
   instance[:common].each do |common|
 
@@ -57,7 +58,8 @@ $instance.each do |instance|
       puts instance[:ip] + instance[:username] + 'will restart at once'
       ssh.exec! "hp restart"
     end
-  else
+  elsif str == 'n'
     puts instance[:ip] + instance[:username] + 'will not restart'
+  #else
   end
 end
