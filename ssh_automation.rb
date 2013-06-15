@@ -5,28 +5,22 @@ require File.expand_path('../config.rb', __FILE__)
 Dir::chdir($deploy_dir)
 
 $instance.each do |instance|
-  str = nil
-  while str != 'y' && str != 'n' do
-    puts 'do you want to delete ' + instance[:destination] + ' ?' + '(y or n)'
-    str = gets.chomp
-    if str == 'y'
-      Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
-        puts "rm -f #{instance[:destination]}common/*"
-        ssh.exec! "rm -f #{instance[:destination]}common/*"
-        puts "rm -f #{instance[:destination]}mall/*"
-        ssh.exec! "rm -f #{instance[:destination]}mall/*"
-        puts "rm -f #{instance[:destination]}payment/*"
-        ssh.exec! "rm -f #{instance[:destination]}payment/*"
-        puts instance[:destination] + ' deleted '
-      end
-    elsif str == 'n'
-      puts 'deploy package will be cover'
-    else
-      puts 'You should type (y or n)'
-    end    
+  #是否需要删除原有包
+  if instance[:delete] == true
+    Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
+      puts "rm -f #{instance[:destination]}common/*"
+      ssh.exec! "rm -f #{instance[:destination]}common/*"
+      puts "rm -f #{instance[:destination]}mall/*"
+      ssh.exec! "rm -f #{instance[:destination]}mall/*"
+      puts "rm -f #{instance[:destination]}payment/*"
+      ssh.exec! "rm -f #{instance[:destination]}payment/*"
+      puts instance[:destination] + ' deleted '
+    end
+  else
+    puts 'deploy package will be cover'  
   end
+  #上传common包
   instance[:common].each do |common|
-
     puts 'deploy common package'
     if File::exists?(common)
       puts common +' exists'
@@ -35,9 +29,10 @@ $instance.each do |instance|
         puts common + ' to ' + instance[:destination] + 'common' + ' upload successfully'
       end
     else
-      puts common + ' not exists'
+      puts common + ' does not exist'
     end
   end
+  #上传mall包
   instance[:mall].each do |mall|
     puts 'deploy mall package'
     if File::exists?(mall)
@@ -47,9 +42,10 @@ $instance.each do |instance|
         puts mall + ' to ' + instance[:destination] + 'mall' + ' upload successfully'
       end
     else
-      puts mall + ' not exists'
+      puts mall + ' does not exist'
     end
   end
+  #上传payment包
   instance[:payment].each do |payment|
     puts 'deploy payment package'
     if File::exists?(payment)
@@ -59,23 +55,18 @@ $instance.each do |instance|
         puts payment + ' to ' + instance[:destination] + 'payment' + ' upload successfully'
       end
     else
-      puts payment + ' not exists'
+      puts payment + ' does not exist'
     end
   end
-  str = nil
-  while str != 'y' && str != 'n' do
-    puts 'do you want to restart ' + instance[:destination] + instance[:username] + ' ?' + '(y or n)'
-    str = gets.chomp
-    if str == 'y'
-      Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
-        puts instance[:ip] + instance[:username] + 'will restart at once'
-        ssh.exec! "hp restart"
-      end
-    elsif str == 'n'
-      puts instance[:ip] + instance[:username] + 'will not restart'
-    else
-      puts 'You should type (y or n)'
+  #是否需要重启JBOSS
+  if instance[:restart] == true
+    Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
+      puts instance[:ip] + instance[:username] + 'will restart at once'
+      ssh.exec! "hp restart"
     end
+  else
+    puts instance[:ip] + instance[:username] + 'will not restart'
   end
-
 end
+
+
