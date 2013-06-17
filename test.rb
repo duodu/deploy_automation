@@ -1,27 +1,14 @@
-require 'win32ole'
-test_excel = 'E:/lib/test2.xlsx'
+require 'net/ssh'
+require 'net/scp'
+require 'timeout'
 
-excel = WIN32OLE::new('excel.Application')
-workbook = excel.Workbooks.Open(test_excel)
-worksheet = workbook.Worksheets(1)
-worksheet.Select
-
-#rows2 = workbook.Worksheets(1).UsedRange.rows.Count
-#columns2 = workbook.Worksheets(1).UsedRange.columns.Count
-end_row_line = workbook.Worksheets(1).UsedRange.rows.Count
-col = Array.new
-i = 0
-line = 1
-while i < 6 && line <= end_row_line
-  if worksheet.Range("A#{line}").value == 'commom'
-    col[i] = line
-    puts col[i]
-    i += 1
+Net::SSH.start('10.48.192.16', 'app02', :password => 'handpay', :port => 10051) do |ssh|
+  #puts instance[:ip] + instance[:username] + ' will restart at once'
+  begin
+  Timeout.timeout(2) {
+        ssh.exec! "sh /opt/app02/bin/hp restart"
+      }
+  rescue Exception
   end
-  line += 1
+  puts "done"
 end
-
-workbook.close
-excel.Quit
-
-puts col.size
