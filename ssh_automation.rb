@@ -28,8 +28,9 @@ $instance.each do |instance|
       puts common +' exists'
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! common, instance[:destination] + 'common' do |ch, name, sent, total|
-          puts "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
+          print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
         end
+        print "\n"
         puts common + ' to ' + instance[:destination] + 'common' + ' upload successfully'
       end
     else
@@ -43,8 +44,9 @@ $instance.each do |instance|
       puts mall +' exists'
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! mall, instance[:destination] + 'mall' do |ch, name, sent, total|
-          puts "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
+          print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
         end
+        print "\n"
         puts mall + ' to ' + instance[:destination] + 'mall' + ' upload successfully'
       end
     else
@@ -58,8 +60,9 @@ $instance.each do |instance|
       puts payment +' exists'
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! payment, instance[:destination] + 'payment' do |ch, name, sent, total|
-          puts "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
+          print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
         end
+        print "\n"
         puts payment + ' to ' + instance[:destination] + 'payment' + ' upload successfully'
       end
     else
@@ -81,5 +84,3 @@ $instance.each do |instance|
     puts instance[:ip] + instance[:username] + ' will not restart'
   end
 end
-
-
