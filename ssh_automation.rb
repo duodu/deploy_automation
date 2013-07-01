@@ -2,6 +2,7 @@ require 'net/ssh'
 require 'net/scp'
 require 'timeout'
 
+
 require File.expand_path('../test_excel.rb', __FILE__)
 require File.expand_path('../config.rb', __FILE__)
 Dir::chdir($deploy_dir)
@@ -27,6 +28,7 @@ $instance.each do |instance|
     if File::exists?(common)
       puts common +' exists'
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
+        #scp.upload! '1.txt', '/opt/app01'
         scp.upload! common, instance[:destination] + 'common' do |ch, name, sent, total|
           print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
         end
@@ -72,13 +74,14 @@ $instance.each do |instance|
   #是否需要重启JBOSS
   if instance[:restart] == true
     Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
-      puts instance[:ip] + instance[:username] + ' will restart at once'
+      
       begin
       Timeout.timeout(2) {
         ssh.exec! "sh /opt/#{instance[:username]}/bin/hp restart"
       }
       rescue Exception
       end
+      puts instance[:ip] + instance[:username] + ' will restart at once'
     end
   else
     puts instance[:ip] + instance[:username] + ' will not restart'

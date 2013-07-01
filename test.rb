@@ -1,14 +1,12 @@
 require 'net/ssh'
 require 'net/scp'
 require 'timeout'
+Dir::chdir('E:/lib/')
 
-Net::SSH.start('10.48.192.16', 'app02', :password => 'handpay', :port => 10051) do |ssh|
+Net::SCP.start('10.48.192.16', 'app01', :password => 'handpay', :port => 10051) do |scp|
   #puts instance[:ip] + instance[:username] + ' will restart at once'
-  begin
-  Timeout.timeout(2) {
-        ssh.exec! "sh /opt/app02/bin/hp restart"
-      }
-  rescue Exception
+  scp.upload! 'hpCommon.jar', '/opt/app01/server/default/deploy/common' do |ch, name, sent, total|
+    print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
   end
   puts "done"
 end

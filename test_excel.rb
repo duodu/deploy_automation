@@ -20,6 +20,8 @@ def file_to_instance
         line += 1
       end
       instance[:common] = common_array
+      # puts 'common'
+      # puts common_array
 #mall
     line = instance[:column]
       while $worksheet.Range("B#{line}").value != nil
@@ -29,6 +31,8 @@ def file_to_instance
         line += 1
       end
       instance[:mall] = mall_array
+      # puts 'mall'
+      # puts mall_array
 #payment
     line = instance[:column]
       while $worksheet.Range("C#{line}").value != nil
@@ -38,10 +42,27 @@ def file_to_instance
         line += 1
       end
       instance[:payment] = payment_array
+      # puts 'payment'
+      # puts payment_array
   end
 end
+ 
+
+# $instance.each do |i|
+  # puts i[:mall]
+  # puts i[:payment]
+  # puts i[:common]
+# end
 
 file_to_instance
+puts $instance.size
+$instance.each do |i|
+  puts i[:ip]
+  puts i[:username]
+  puts i[:mall]
+  puts i[:payment]
+  puts i[:common]
+end
 
 $workbook.close
 $excel.Quit
