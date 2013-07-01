@@ -27,6 +27,9 @@ $instance.each do |instance|
     puts 'deploy common package'
     if File::exists?(common)
       puts common +' exists'
+      Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
+        ssh.exec! 'rm -f #{instance[:destination]}common/#{common}'
+      end
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         #scp.upload! '1.txt', '/opt/app01'
         scp.upload! common, instance[:destination] + 'common' do |ch, name, sent, total|
@@ -44,6 +47,9 @@ $instance.each do |instance|
     puts 'deploy mall package'
     if File::exists?(mall)
       puts mall +' exists'
+      Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
+        ssh.exec! 'rm -f #{instance[:destination]}mall/#{mall}'
+      end
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! mall, instance[:destination] + 'mall' do |ch, name, sent, total|
           print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"
@@ -60,6 +66,9 @@ $instance.each do |instance|
     puts 'deploy payment package'
     if File::exists?(payment)
       puts payment +' exists'
+      Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
+        ssh.exec! 'rm -f #{instance[:destination]}payment/#{payment}'
+      end
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! payment, instance[:destination] + 'payment' do |ch, name, sent, total|
           print "\r#{name}: #{(sent.to_f * 100 / total.to_f).to_i}%"

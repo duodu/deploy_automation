@@ -3,7 +3,7 @@ require 'win32ole'
 #部署配置的EXCEL文件
 $deploy_excel = 'E:/lib/deploy.xlsx'
 #部署包的目录
-$deploy_dir = 'E:/lib/'
+$deploy_dir = 'E:/lib/mall'
 
 #取EXCEL行数
 excel = WIN32OLE::new('excel.Application')
@@ -34,7 +34,7 @@ instance_cp_01 = {
     :username => 'app01',
     :password => 'handpay',
     :column => col[0],#EXCEL中的行数
-    :delete => true,
+    :delete => false,
     :restart => true,
     :destination => '/opt/app01/server/default/deploy/'
   }
@@ -49,7 +49,7 @@ instance_cp_02 = {
     :username => 'app02',
     :password => 'handpay',
     :column => col[1],#EXCEL中的行数
-    :delete => true,
+    :delete => false,
     :restart => true,
     :destination => '/opt/app02/server/default/deploy/'
   }
@@ -64,7 +64,7 @@ instance_cp_03 = {
     :username => 'app03',
     :password => 'handpay',
     :column => col[2],#EXCEL中的行数
-    :delete => true,
+    :delete => false,
     :restart => true,
     :destination => '/opt/app03/server/default/deploy/'
   }
@@ -79,7 +79,7 @@ instance_cc_01 = {
     :username => 'app01',
     :password => 'handpay',
     :column => col[3],#EXCEL中的行数
-    :delete => true,
+    :delete => false,
     :restart => true,
     :destination => '/opt/app01/server/default/deploy/'
   }
@@ -94,7 +94,7 @@ instance_cc_02 = {
     :username => 'app02',
     :password => 'handpay',
     :column => col[4],#EXCEL中的行数
-    :delete => true,
+    :delete => false,
     :restart => true,
     :destination => '/opt/app02/server/default/deploy/'
   }
@@ -110,19 +110,19 @@ instance_cc_03 = {
     :username => 'app03',
     :password => 'handpay',
     :column => col[5],#EXCEL中的行数
-    :delete => true,
+    :delete => false,
     :restart => true,
     :destination => '/opt/app03/server/default/deploy/'
   }
 
 #所有实例
 $instance=[
-  instance_cp_01,
-  instance_cp_02,
-  instance_cp_03,
+
   instance_cc_01,
   instance_cc_02,
-  instance_cc_03
-
+  instance_cc_03,
+  instance_cp_01,
+  instance_cp_02,
+  instance_cp_03
   ]
 #$instance=[$instance_cp_01,$instance_cp_02,$instance_cp_03]
