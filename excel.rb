@@ -1,10 +1,9 @@
-require 'win32ole'
+require 'roo'
 require File.expand_path('../config.rb', __FILE__)
 
-$excel = WIN32OLE::new('excel.Application')
-$workbook = $excel.Workbooks.Open($deploy_excel)
-$worksheet = $workbook.Worksheets(1)
-$worksheet.Select
+$excel = Roo::Excelx.new($deploy_excel)
+$excel.default_sheet = $excel.sheets.first
+end_row_line = $excel.last_row
 
 def file_to_instance
   $instance.each do |instance|
@@ -13,9 +12,9 @@ def file_to_instance
     payment_array=Array.new
 #common
     line = instance[:column]
-      while $worksheet.Range("A#{line}").value != nil
-        if  $worksheet.Range("A#{line}").value =~ /ar\z/
-          common_array << $worksheet.Range("A#{line}").value
+      while $excel.cell('A',line) != nil
+        if  $excel.cell('A',line) =~ /ar\z/
+          common_array << $excel.cell('A',line)
         end
         line += 1
       end
@@ -24,9 +23,9 @@ def file_to_instance
       # puts common_array
 #mall
     line = instance[:column]
-      while $worksheet.Range("B#{line}").value != nil
-        if  $worksheet.Range("B#{line}").value =~ /ar\z/
-          mall_array << $worksheet.Range("B#{line}").value
+      while $excel.cell('B',line) != nil
+        if  $excel.cell('B',line) =~ /ar\z/
+          mall_array << $excel.cell('B',line)
         end
         line += 1
       end
@@ -35,9 +34,9 @@ def file_to_instance
       # puts mall_array
 #payment
     line = instance[:column]
-      while $worksheet.Range("C#{line}").value != nil
-        if  $worksheet.Range("C#{line}").value =~ /ar\z/
-          payment_array << $worksheet.Range("C#{line}").value
+      while $excel.cell('C',line) != nil
+        if  $excel.cell('C',line) =~ /ar\z/
+          payment_array << $excel.cell('C',line)
         end
         line += 1
       end
@@ -46,13 +45,6 @@ def file_to_instance
       # puts payment_array
   end
 end
- 
-
-# $instance.each do |i|
-  # puts i[:mall]
-  # puts i[:payment]
-  # puts i[:common]
-# end
 
 file_to_instance
 puts $instance.size
@@ -66,6 +58,3 @@ $instance.each do |i|
   puts "common"
   puts i[:common]
 end
-
-$workbook.close
-$excel.Quit
