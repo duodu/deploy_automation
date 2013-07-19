@@ -23,8 +23,9 @@ def get_file_list(path)
               end
               print "\n"
             end
+            puts "#{sub} uploaded."
           else
-            puts "#{sub} doesn't exists"
+            puts "#{sub} doesn't exists."
           end
         end
       end  
