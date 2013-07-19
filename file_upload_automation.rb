@@ -1,12 +1,13 @@
 require 'net/ssh'
 require 'net/scp'
+require File.expand_path('../config.rb', __FILE__)
 
 def get_file_list(path)  
   Dir.entries(path).each do |sub|
     Dir::chdir(path)
     if sub != '.' && sub != '..'  
-      if File.directory?("#{path}/#{sub}")    
-        get_file_list("#{path}/#{sub}")  
+      if File.directory?("#{path}/#{sub}")
+        get_file_list("#{path}/#{sub}")
       else
         Net::SSH.start('10.48.192.16', 'app03', :password => 'handpay', :port => 10051) do |ssh|
           res = ssh.exec! "ls /opt/app03/test/|grep #{sub}"
