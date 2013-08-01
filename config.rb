@@ -1,7 +1,7 @@
 require 'win32ole'
 
 #部署配置的EXCEL文件
-$deploy_excel = 'E:/lib/deploy.xlsx'
+$deploy_excel = 'E:/lib/deploy_colorful.xlsx'
 #部署包的目录
 $deploy_dir = 'E:/lib/mall'
 

@@ -24,11 +24,12 @@ $instance.each do |instance|
   end
   #上传common包
   instance[:common].each do |common|
-    puts 'deploy common package'
+    puts "#{instance[:ip]},#{instance[:username]} deploy common package"
     if File::exists?(common)
       puts common +' exists'
       Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
-        ssh.exec! 'rm -f #{instance[:destination]}common/#{common}'
+        puts "rm -f #{instance[:destination]}common/#{common}"
+        ssh.exec! "rm -f #{instance[:destination]}common/#{common}"
       end
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         #scp.upload! '1.txt', '/opt/app01'
@@ -44,11 +45,12 @@ $instance.each do |instance|
   end
   #上传mall包
   instance[:mall].each do |mall|
-    puts 'deploy mall package'
+    puts "#{instance[:ip]},#{instance[:username]} deploy mall package"
     if File::exists?(mall)
       puts mall +' exists'
       Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
-        ssh.exec! 'rm -f #{instance[:destination]}mall/#{mall}'
+        puts "rm -f #{instance[:destination]}mall/#{mall}"
+        ssh.exec! "rm -f #{instance[:destination]}mall/#{mall}"
       end
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! mall, instance[:destination] + 'mall' do |ch, name, sent, total|
@@ -63,11 +65,12 @@ $instance.each do |instance|
   end
   #上传payment包
   instance[:payment].each do |payment|
-    puts 'deploy payment package'
+    puts "#{instance[:ip]},#{instance[:username]} deploy payment package"
     if File::exists?(payment)
       puts payment +' exists'
       Net::SSH.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |ssh|
-        ssh.exec! 'rm -f #{instance[:destination]}payment/#{payment}'
+        puts "rm -f #{instance[:destination]}payment/#{payment}"
+        ssh.exec! "rm -f #{instance[:destination]}payment/#{payment}"
       end
       Net::SCP.start(instance[:ip], instance[:username], :password => instance[:password], :port => instance[:port]) do |scp|
         scp.upload! payment, instance[:destination] + 'payment' do |ch, name, sent, total|
