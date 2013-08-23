@@ -3,7 +3,7 @@ require 'net/scp'
 require 'timeout'
 
 
-require File.expand_path('../test_excel.rb', __FILE__)
+require File.expand_path('../excel.rb', __FILE__)
 require File.expand_path('../config.rb', __FILE__)
 Dir::chdir($deploy_dir)
 

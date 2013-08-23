@@ -47,14 +47,14 @@ def file_to_instance
 end
 
 file_to_instance
-puts $instance.size
-$instance.each do |i|
-  puts i[:ip]
-  puts i[:username]
-  puts "mall"
-  puts i[:mall]
-  puts "payment"
-  puts i[:payment]
-  puts "common"
-  puts i[:common]
-end
+# puts $instance.size
+# $instance.each do |i|
+  # puts i[:ip]
+  # puts i[:username]
+  # puts "mall"
+  # puts i[:mall]
+  # puts "payment"
+  # puts i[:payment]
+  # puts "common"
+  # puts i[:common]
+# end

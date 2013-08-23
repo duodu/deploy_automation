@@ -1,29 +1,26 @@
-require 'win32ole'
-
+require 'roo'
 #部署配置的EXCEL文件
 $deploy_excel = 'E:/lib/deploy_colorful.xlsx'
 #部署包的目录
 $deploy_dir = 'E:/lib/mall'
 
 #取EXCEL行数
-excel = WIN32OLE::new('excel.Application')
-workbook = excel.Workbooks.Open($deploy_excel)
-worksheet = workbook.Worksheets(1)
-worksheet.Select
+excel = Roo::Excelx.new($deploy_excel)
+excel.default_sheet = excel.sheets.first
+end_row_line = excel.last_row
 
-end_row_line = workbook.Worksheets(1).UsedRange.rows.Count
 col = Array.new
 i = 0
 line = 1
 while i < 6 && line <= end_row_line
-  if worksheet.Range("A#{line}").value == 'common'
+  excel.cell('C',line)
+  if excel.cell('A',line) == 'common'
     col[i] = line
     i += 1
   end
   line += 1
 end
-workbook.close
-excel.Quit
+
 #展示层app01
 instance_cp_01 = {
     :common => nil,
@@ -123,6 +120,5 @@ $instance=[
   instance_cc_01,
   instance_cc_02,
   instance_cc_03
-
   ]
 #$instance=[$instance_cp_01,$instance_cp_02,$instance_cp_03]
